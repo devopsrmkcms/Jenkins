@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+    stages {
+        stage ("Build") {
+            steps {
+                echo "Build stage"
+            }
+        }
+        stage ("Test") {
+            steps {
+                echo "Test Stage"
+            }
+        }
+        stage ("Deploy"){
+            steps {
+                echo "Deploy stage"
+            }
+        }
+    }
+    post {
+        success {echo "Success"}
+        failure {echo "Job failed"}
+    }
+}
