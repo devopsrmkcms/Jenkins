@@ -1,0 +1,17 @@
+pipeline {
+    agent any 
+    environment {
+        APP_NAME = "entrust"
+        APP_VERSION = "v1.3"
+        USERNAME = "admin"
+    }
+    stages {
+        stage ("print env variables"){
+            steps {
+                echo "Application name: ${APP_NAME}"
+                echo "APP Version: ${APP_VERSION}"
+                sh 'echo "Name of user is: $USERNAME" '
+            }
+        }
+    }
+}
