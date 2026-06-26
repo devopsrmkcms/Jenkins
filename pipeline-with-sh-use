@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+    stages {
+        stage ("Build"){
+            steps {
+                echo "This is build stage of project"
+                sh 'date'
+                sh 'uptime'
+                sh 'free -g && df -hT'
+            }
+        }
+        stage ("Test"){
+            steps {
+                echo "This is test stage of project"
+            }
+        }
+        stage ("Deploy"){
+            steps {
+                echo "This is deploy stage of project"
+            }
+        }
+    }
+    post {
+        success {echo "Job successful"}
+        failure {echo "Job failed"}
+    }
+}
