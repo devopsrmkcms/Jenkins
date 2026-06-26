@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'APP_NAME', defaultValue: 'Entrust', description: 'Application Name')
+        string(name: 'APP_VERSION', defaultValue: 'v1.0', description: 'Application Version')
+        string(name: 'ENV', defaultValue: 'dev', description: 'Target Environment')
+    }
+
+    stages {
+
+        stage('Build') {
+            steps {
+                echo "Building $APP_NAME version $APP_VERSION"
+                sh "echo Build started for $APP_NAME"
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo "Testing $APP_NAME"
+                sh "echo Running tests..."
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "Deploying $APP_NAME to $ENV environment"
+                sh "echo Deploying version $APP_VERSION to $ENV"
+            }
+        }
+    }
+}
