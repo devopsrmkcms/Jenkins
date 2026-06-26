@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+
+    parameters {
+        choice(name: 'ENV_TYPE', choices: ['dev', 'test', 'prod'], description: 'Select Environment')
+        choice(name: 'ACTION', choices: ['build', 'test', 'deploy'], description: 'Select Action')
+        booleanParam(name: 'RUN_MONITORING', defaultValue: true, description: 'Run system checks or not')
+    }
+
+    environment {
+        APP_NAME = "Entrust"
+        APP_VERSION = "v1.3"
+        USER_NAME = "admin"
+    }
+
+    stages {
+        stage("Build_Test_Deploy") {
+            steps {
+                echo "Application Name: ${APP_NAME}"
+                echo "Application Version: ${APP_VERSION}"
+                echo "User Name: ${USER_NAME}"
+
+                echo "Selected Environment: ${params.ENV_TYPE}"
+                echo "Selected Action: ${params.ACTION}"
+                echo "Run Monitoring: ${params.RUN_MONITORING}"
+
+                // Run only if checkbox is enabled
+                script {
+                    if (params.RUN_MONITORING) {
+                        sh 'date'
+                        sh 'uptime'
+                        sh 'df -hT'
+                        sh 'free -g'
+                    } else {
+                        echo "Monitoring skipped"
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success { echo "Pipeline successful" }
+        failure { echo "Pipeline failed" }
+    }
+}
