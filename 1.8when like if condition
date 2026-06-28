@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'ACTION', defaultValue: 'build', description: 'Action to perform')
+        booleanParam(name: 'DEPLOY', defaultValue: true, description: 'Deploy or not')
+    }
+
+    stages {
+
+        stage('Build') {
+            when {
+                expression { params.ACTION == 'build' }
+            }
+            steps {
+                echo "Running Build Stage"
+            }
+        }
+
+        stage('Test') {
+            when {
+                expression { params.ACTION == 'test' }
+            }
+            steps {
+                echo "Running Test Stage"
+            }
+        }
+
+        stage('Deploy') {
+            when {
+                expression { params.DEPLOY == true }
+            }
+            steps {
+                echo "Running Deploy Stage"
+            }
+        }
+    }
+}
