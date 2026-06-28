@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Run All Stages') {
+            steps {
+                script {
+                    def stagesList = ['Build', 'Test', 'Deploy']
+
+                    for (int i = 0; i < stagesList.size(); i++) {
+                        echo "Running ${stagesList[i]} stage"
+
+                        if (stagesList[i] == 'Build') {
+                            echo "Executing Build..."
+                        }
+                        else if (stagesList[i] == 'Test') {
+                            echo "Executing Test..."
+                        }
+                        else if (stagesList[i] == 'Deploy') {
+                            echo "Executing Deploy..."
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
