@@ -1,0 +1,8 @@
+---
+- name: run playbook
+  hosts: all
+  tasks:
+    - name: download package
+      yum:
+        name: tree
+        state: present
