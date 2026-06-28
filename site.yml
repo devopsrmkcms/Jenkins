@@ -6,7 +6,7 @@
       yum:
         name: tree
         state: present
-      register: package_download
+      register: "{{ package_download }}"
 
     - name: print 
       debug:
