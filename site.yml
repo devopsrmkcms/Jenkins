@@ -1,13 +1,60 @@
 ---
-- name: run playbook
+- name: Package Installation and Server Checks
   hosts: all
-  tasks:
-    - name: download package
-      yum:
-        name: tree
-        state: present
-      register: package_download
+  become: yes
 
-    - name: print 
+  tasks:
+
+    - name: Install nginx package
+      package:
+        name: httpd
+        state: present
+
+    - name: Check httpd service status
+      systemd:
+        name: httpd
+      register: httpd_status
+
+    - name: Display httpd status
       debug:
-        var: package_download 
+        var: httpd_status.status.ActiveState
+
+    - name: Run uptime command
+      command: uptime
+      register: uptime_output
+
+    - name: Display uptime output
+      debug:
+        var: uptime_output.stdout
+
+    - name: Run free -g command
+      command: free -g
+      register: memory_output
+
+    - name: Display memory details
+      debug:
+        var: memory_output.stdout_lines
+
+    - name: Check disk usage
+      command: df -h
+      register: disk_output
+
+    - name: Display disk usage
+      debug:
+        var: disk_output.stdout_lines
+
+    - name: Get hostname
+      command: hostname
+      register: hostname_output
+
+    - name: Display hostname
+      debug:
+        msg: "Hostname is {{ hostname_output.stdout }}"
+
+    - name: Check kernel version
+      command: uname -r
+      register: kernel_output
+
+    - name: Display kernel version
+      debug:
+        msg: "Kernel Version: {{ kernel_output.stdout }}"
